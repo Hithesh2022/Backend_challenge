@@ -1,0 +1,20 @@
+# Dependency directories
+node_modules/
+
+# Environment configuration
+.env
+
+# Runtime data
+*.log
+*.pid
+*.lock
+
+# Optional: Editor directories and files
+.vscode/
+.idea/
+
+# Optional: macOS system files
+.DS_Store
+
+# Optional: Windows Thumbs.db file
+Thumbs.db
