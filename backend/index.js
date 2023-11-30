@@ -2,7 +2,7 @@ import { config } from "dotenv";
 config();
 
 import express from 'express';
-import bodyParser from "body-parser";
+import bodyparser from 'body-parser';
 import rateLimit from "express-rate-limit";
 import session from "express-session";
 import passport from "passport";
@@ -14,8 +14,9 @@ const app = express();
 const PORT = 5000;
 
 // Order of middleware is important
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(cors());
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
 
 // Session configuration with MongoDB store
 app.use(
@@ -43,7 +44,6 @@ app.use(passport.session());
 
 app.set("trust proxy", 2);
 
-app.use(cors());
 app.use(express.json());
 
 // Ensure you handle the promise returned by mongoConnect
