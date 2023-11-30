@@ -29,7 +29,8 @@ const UserSchema = new mongoose.Schema({
     default: false, // Initially, the email is not verified
   },
   photo: {
-    type: Buffer
+    type: Buffer,
+    default: null
   }
 });
 
