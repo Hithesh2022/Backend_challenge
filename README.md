@@ -1,4 +1,4 @@
-# HireQuotient_challenge
+# Backend_challenge
 
 # Steps to run in Local environment
 step1) clone the repo using git clone 
