@@ -7,7 +7,7 @@ export async function Verify(req, res, next) {
     const authHeader = req.headers["authorization"];
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.sendStatus(401);
+        return res.sendStatus(400).json({ message: "token not found" });
     }
 
     const accessToken = authHeader.split(" ")[1];
@@ -27,8 +27,8 @@ export async function Verify(req, res, next) {
     jwt.verify(accessToken, process.env.JWT_SECRET, async (err, decoded) => {
         if (err) {
             return res
-                .status(401)
-                .json({ message: "This session has expired. Please login" });
+                .status(402)
+                .json({ message: "invalid token" });
         }
         console.log(decoded)
         const { _id } = decoded;
@@ -37,8 +37,8 @@ export async function Verify(req, res, next) {
 
         if (!user) {
             return res
-                .status(401)
-                .json({ message: "User not found. Please login" });
+                .status(403)
+                .json({ message: "User not found. Please signup" });
         }
 
         const { password, ...data } = user._doc;

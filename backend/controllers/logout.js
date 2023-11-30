@@ -1,5 +1,6 @@
 import Blacklist from '../models/Blacklist.js';
 export async function Logout(req, res) {
+    try{
     const accessToken = req.token;
 
     // Check if the token is already blacklisted
@@ -12,4 +13,8 @@ export async function Logout(req, res) {
     }
 
     res.status(200).json({ message: "Logout successful" });
+}catch(err){
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+}
 }

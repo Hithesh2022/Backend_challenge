@@ -9,11 +9,20 @@ import passport from "passport";
 import cors from 'cors';
 import router from './Router/router.js';
 import mongoConnect from "./configs/dbconfig.js";
+import swaggerUi from 'swagger-ui-express'; 
+import Yaml from 'yamljs';
 
 const app = express();
 const PORT = 5000;
 
-// Order of middleware is important
+
+/***************************************API DOCS******************************************************************************************* */
+
+const swaggerDocument = Yaml.load('./swagger.yml');
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+/******************************************************************************************************************************************* */
+
 app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
@@ -25,8 +34,7 @@ app.use(
     cookie: {},
     resave: false,
     saveUninitialized: true,
-    // Example using connect-mongo as a session store for MongoDB
-    // store: new MongoStore({ mongooseConnection: mongoose.connection }),
+   
   })
 );
 /*
@@ -46,7 +54,7 @@ app.set("trust proxy", 2);
 
 app.use(express.json());
 
-// Ensure you handle the promise returned by mongoConnect
+//rate limiting after connection to db
 mongoConnect().then(() => {
   const limiter = rateLimit({
     windowMs: 5 * 60 * 1000,

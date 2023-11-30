@@ -28,6 +28,9 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false, // Initially, the email is not verified
   },
+  photo: {
+    type: Buffer
+  }
 });
 
 // Hash the password before saving
@@ -57,13 +60,7 @@ UserSchema.methods.comparePassword = function (password, callback) {
 
 
 
-// Add a reference to the LinkInBioPage model
-UserSchema.virtual("linkInBioPage", {
-  ref: "LinkInBioPage",
-  localField: "_id",
-  foreignField: "userId",
-  justOne: true,
-});
+
 
 
 const User = mongoose.model("User", UserSchema);

@@ -1,5 +1,9 @@
 import User from "../models/Usermodel.js";
 import jwt from "jsonwebtoken";
+import multer from 'multer';
+const storage = multer.memoryStorage();
+export const upload = multer({ storage: storage });
+
 export const GetProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
@@ -83,11 +87,21 @@ export const ChangeName = async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
   };
-export const UploadPhoto = async (req, res) => {
+  //dummy code update for future use
+  export const UploadPhoto = async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate(req.user._id, { photo: req.body.photo });
-        console.log(user)
-        res.status(200).json(user);
+        // Check if file is uploaded successfully
+        console.log(req.file);
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        // Access the uploaded file through req.file.buffer
+        const user = await User.findById(req.user._id);
+        user.photo = req.file.buffer;
+        await user.save();
+        console.log(user);
+        res.status(200).json({ message: 'Photo uploaded successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Server error" });
